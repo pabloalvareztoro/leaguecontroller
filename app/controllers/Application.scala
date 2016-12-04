@@ -6,12 +6,6 @@ import play.api.libs.json.Json._
 object Application extends Controller {
 
   def index = Action { implicit request =>
-    Ok(currentApi)
-  }
-
-  private def currentApi(implicit request: RequestHeader) = {
-    toJson(Map(
-      "root" -> request.uri
-    ))
+    Ok("League Controller service")
   }
 }
