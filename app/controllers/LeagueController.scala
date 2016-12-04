@@ -1,11 +1,8 @@
 package controllers
 
 import play.api.libs.json.{JsArray, JsValue, Json}
-import play.api.libs.json.Json._
 import play.api.libs.ws._
 import play.api.mvc._
-import play.libs.F.Promise
-import play.mvc.Http.Response
 import javax.inject.Inject
 
 import scala.concurrent.{ExecutionContext, Future}
