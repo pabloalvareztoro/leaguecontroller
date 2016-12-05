@@ -12,11 +12,12 @@ class LeagueController @Inject() (ws: WSClient) extends Controller {
   implicit val context = play.api.libs.concurrent.Execution.Implicits.defaultContext
 
   def createFixture = Action.async { implicit request =>
-      val request: WSRequest = ws.url("http://localhost:3000/teamcreator/20");
-      val complexRequest: WSRequest =
-        request.withHeaders("Accept" -> "application/json")
-      complexRequest.get().map { response =>
-        Ok(response.body)
-      }
+    val futureResponse: Future[WSResponse] = for {
+      responseOne <- ws.url("http://localhost:3000/teamcreator/10").get()
+      responseTwo <- ws.url("http://localhost:3001/createfixture").post(responseOne.json)
+    } yield responseTwo
+    futureResponse map { response =>
+      Ok(response.body)
+    }
   }
 }
