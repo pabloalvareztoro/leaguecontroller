@@ -1,5 +1,6 @@
 package api
 
+import models.db.DBLeague
 import models.{League, Team}
 import play.api.libs.json._
 
@@ -19,5 +20,7 @@ object JsonCombinators {
     )
   }
 
-  implicit val leagueReads: Reads[League] = (JsPath).read[Seq[Team]].map(teams => League(teams))
+  implicit val leagueReads: Reads[League] = (JsPath \ "teams").read[Seq[Team]].map(teams => League(teams))
+
+  implicit val dbLeagueReads: Reads[DBLeague] = (JsPath \ "teams").read[String].map(teams => DBLeague(teams))
 }
