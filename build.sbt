@@ -8,7 +8,8 @@ scalaVersion := "2.11.1"
 
 libraryDependencies ++= Seq(
   ws,
-  "javax.inject" % "javax.inject" % "1"
+  "javax.inject" % "javax.inject" % "1",
+  "org.reactivemongo" %% "play2-reactivemongo" % "0.11.14"
 )
 
 // The repositories

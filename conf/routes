@@ -1,2 +1,2 @@
 GET     /                   controllers.Application.index
-GET     /createFixture      controllers.LeagueController.createFixture
+GET     /createleague      controllers.LeagueController.createLeague
