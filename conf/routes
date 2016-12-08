@@ -1,3 +1,7 @@
 GET     /                   controllers.Application.index
 GET     /createleague       controllers.LeagueController.createLeague
-GET     /createfixture      controllers.LeagueController.createFixture
+POST    /createfixture      controllers.LeagueController.createFixture
+POST    /playweek           controllers.LeagueController.playWeek
+POST    /playfixture        controllers.LeagueController.playFixture
+POST    /resulttable        controllers.TableController.resultTable
+POST    /weekresulttable    controllers.TableController.weekResultTable
