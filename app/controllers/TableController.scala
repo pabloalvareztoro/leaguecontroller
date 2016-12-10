@@ -50,7 +50,7 @@ class TableController @Inject() (val ws: WSClient, val reactiveMongoApi: Reactiv
         team
       })
       updateTeam(teamOne, contenderOne.score, contenderTwo.score)
-      updateTeam(teamTwo, contenderOne.score, contenderTwo.score)
+      updateTeam(teamTwo, contenderTwo.score, contenderOne.score)
       teams += (contenderOne.name -> teamOne)
       teams += (contenderTwo.name -> teamTwo)
     }
