@@ -6,17 +6,22 @@ import models.TeamStatistics.{GoalsConceded, GoalsScored, _}
 import models._
 import api.JsonCombinators._
 import play.api.libs.json.{JsArray, JsValue, Json}
-import play.api.libs.ws.WSClient
+import play.api.libs.ws.{WSClient, WSResponse}
 import play.api.mvc.{Action, Controller}
+import play.modules.reactivemongo.json.collection.JSONCollection
 import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 
 import scala.collection.mutable.ListBuffer
 
 class TableController @Inject() (val ws: WSClient, val reactiveMongoApi: ReactiveMongoApi) extends Controller with MongoController with ReactiveMongoComponents {
 
+  def positionCollection = reactiveMongoApi.db.collection[JSONCollection]("positions");
+
   def resultTable = Action(parse.json) { implicit request =>
-    val results: JsValue = request.body
-    val fixture: Fixture = (results \ "results").validate[Fixture].get
+    val jsonRequest: JsValue = request.body
+    val fixtureId: String = (jsonRequest \ "fixtureId").validate[String].get
+    val leagueId: String = (jsonRequest \ "leagueId").validate[String].get
+    val fixture: Fixture = (jsonRequest \ "results").validate[Fixture].get
     val leagues: ListBuffer[JsValue] = ListBuffer[JsValue]()
     val teams: scala.collection.mutable.Map[String, Team] = scala.collection.mutable.Map[String, Team]()
     for(week <- fixture.fixture){
@@ -25,7 +30,7 @@ class TableController @Inject() (val ws: WSClient, val reactiveMongoApi: Reactiv
       val leagueAsString: String = Json.toJson(league).toString()
       leagues.append(Json.parse(leagueAsString))
     }
-    Ok(Json.obj("tables" -> Json.toJson(leagues.toSeq)))
+    Ok(Json.obj("leagueId" -> leagueId, "fixtureId" -> fixtureId, "tables" -> Json.toJson(leagues.toSeq)))
   }
 
   def weekResultTable = Action(parse.json) { implicit request =>
