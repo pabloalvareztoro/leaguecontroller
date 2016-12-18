@@ -1,4 +1,4 @@
-name := """scala-dci"""
+name := """leaguecontroller"""
 
 version := "1.0-SNAPSHOT"
 
