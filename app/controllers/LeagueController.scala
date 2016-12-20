@@ -26,15 +26,27 @@ class LeagueController @Inject() (val ws: WSClient, val reactiveMongoApi: Reacti
 
   def createLeague = Action.async { implicit request =>
     val leagueId: String = BSONObjectID.generate.stringify
+    val futureResponse: Future[WSResponse] = getFutureTeamsCreator(20, leagueId)
+    futureResponse.map { response =>
+      Ok(Json.obj("leagueId" -> leagueId, "league" -> response.json))
+    }
+  }
+
+  def createLeagueFixedTeams(teams: Int) = Action.async { implicit request =>
+    val leagueId: String = BSONObjectID.generate.stringify
+    val futureResponse: Future[WSResponse] = getFutureTeamsCreator(teams, leagueId)
+    futureResponse.map { response =>
+      Ok(Json.obj("leagueId" -> leagueId, "league" -> response.json))
+    }
+  }
+
+  def getFutureTeamsCreator(teams: Int, leagueId: String): Future[WSResponse] = {
     val futureResponse: Future[WSResponse] = for {
-      league <- ws.url(configuration.underlying.getString("leaguemaker.teamscreator.uri") + "/teamcreator/10").get()
+      league <- ws.url(configuration.underlying.getString("leaguemaker.teamscreator.uri") + "/teamcreator/" + teams).get()
       saveLeague <- leagueCollection.insert(Json.obj("leagueId" -> leagueId, "league" -> league.json))
         .map {response => Created}
         .recover {case _ => InternalServerError("DB Failure")}
     } yield league
-    futureResponse.map { response =>
-      Ok(Json.obj("leagueId" -> leagueId, "league" -> response.json))
-    }
   }
 
   def createFixture = Action.async(parse.json) { implicit request =>
