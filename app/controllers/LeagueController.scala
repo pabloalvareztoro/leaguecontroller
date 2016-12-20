@@ -47,6 +47,7 @@ class LeagueController @Inject() (val ws: WSClient, val reactiveMongoApi: Reacti
         .map {response => Created}
         .recover {case _ => InternalServerError("DB Failure")}
     } yield league
+    return futureResponse
   }
 
   def createFixture = Action.async(parse.json) { implicit request =>
