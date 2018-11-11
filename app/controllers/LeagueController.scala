@@ -57,7 +57,7 @@ class LeagueController @Inject() (val ws: WSClient, val reactiveMongoApi: Reacti
   }
 
   def getFutureTeamsCreator(teams: Int, leagueId: String, isReal: Boolean, league: String): Future[WSResponse] = {
-    val leagueType = if isReal "realteams" else "nonexistentteams"
+    val leagueType = if (isReal) "realteams" else "nonexistentteams"
     var endpoint = "/teamcreator/" + leagueType + "/" + teams
     if (isReal){
       if(league != "all") {
