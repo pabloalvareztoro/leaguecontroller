@@ -1,8 +1,10 @@
-GET     /                       controllers.Application.index
-GET     /createleague           controllers.LeagueController.createLeague
-GET     /createleague/:teams    controllers.LeagueController.createLeagueFixedTeams(teams: Int)
-POST    /createfixture          controllers.LeagueController.createFixture
-POST    /playweek               controllers.LeagueController.playWeek
-POST    /playfixture            controllers.LeagueController.playFixture
-POST    /resulttable            controllers.TableController.resultTable
-POST    /weekresulttable        controllers.TableController.weekResultTable
+GET     /                                   controllers.Application.index
+GET     /createleague                       controllers.LeagueController.createLeague
+GET     /createleague/:teams                controllers.LeagueController.createLeagueFixedTeams(teams: Int)
+GET     /createrealleague/:league           controllers.LeagueController.createRealLeague(league: String)
+GET     /createrealleague/:league/:teams    controllers.LeagueController.createRealLeagueFixedTeams(league: String, teams: Int)
+POST    /createfixture                      controllers.LeagueController.createFixture
+POST    /playweek                           controllers.LeagueController.playWeek
+POST    /playfixture                        controllers.LeagueController.playFixture
+POST    /resulttable                        controllers.TableController.resultTable
+POST    /weekresulttable                    controllers.TableController.weekResultTable
