@@ -26,7 +26,7 @@ class LeagueController @Inject() (val ws: WSClient, val reactiveMongoApi: Reacti
 
   def createLeague = Action.async { implicit request =>
     val leagueId: String = BSONObjectID.generate.stringify
-    val futureResponse: Future[WSResponse] = getFutureTeamsCreator(20, leagueId, false)
+    val futureResponse: Future[WSResponse] = getFutureTeamsCreator(20, leagueId, false, null)
     futureResponse.map { response =>
       Ok(Json.obj("leagueId" -> leagueId, "league" -> response.json))
     }
@@ -34,7 +34,7 @@ class LeagueController @Inject() (val ws: WSClient, val reactiveMongoApi: Reacti
 
   def createLeagueFixedTeams(teams: Int) = Action.async { implicit request =>
     val leagueId: String = BSONObjectID.generate.stringify
-    val futureResponse: Future[WSResponse] = getFutureTeamsCreator(teams, leagueId, false)
+    val futureResponse: Future[WSResponse] = getFutureTeamsCreator(teams, leagueId, false, null)
     futureResponse.map { response =>
       Ok(Json.obj("leagueId" -> leagueId, "league" -> response.json))
     }
